@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
 using BFF_Web_App.Client.Weather;
 using Microsoft.Identity.Web;
+using Microsoft.Graph.Models.ExternalConnectors;
+using Microsoft.Extensions.Configuration;
 
 namespace BFF_Web_App;
 
@@ -21,7 +23,7 @@ internal sealed class ServerWeatherForecaster : IWeatherForecaster
 
     public async Task<IEnumerable<WeatherForecast>> GetWeatherForecastAsync()
     {
-        var scopes = new[] { _configuration["DownstreamApi:scopes"] };
+        string[] scopes = _configuration.GetSection("DownstreamApis:WeatherForecast:Scopes").Get<string[]>();
 
         var accessToken = await _tokenAquisitionService.GetAccessTokenForUserAsync(scopes) ??
             throw new InvalidOperationException("No access_token was received");

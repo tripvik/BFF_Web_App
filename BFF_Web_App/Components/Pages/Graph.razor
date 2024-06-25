@@ -1,0 +1,29 @@
+﻿@page "/graph"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@attribute [StreamRendering]
+@inject GraphService graphService
+
+<PageTitle>User Info</PageTitle>
+
+<h1>Graph Api</h1>
+
+<p>This component demonstrates getting data from graph api.</p>
+
+@if (profileImage == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <img src="@profileImage" height="100" />
+}
+
+@code {
+    private string profileImage = default!;
+    protected override async Task OnInitializedAsync()
+    {
+        var image = await graphService.GetProfileImageAsync();
+        profileImage = String.Format("data:image/jpeg;base64,{0}", image);
+    }
+}

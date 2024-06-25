@@ -39,6 +39,8 @@ builder.Services.AddHttpClient<IWeatherForecaster, ServerWeatherForecaster>(http
     httpClient.BaseAddress = new(apiBaseAddress);
 });
 
+builder.Services.AddScoped<GraphService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
